@@ -50,6 +50,20 @@ class STM32WLx_ModuleWrapper : public STM32WLx_Module
 };
 #endif
 
+
+// Auxiliary function overloading: for LR2021 type  
+// template <typename T>
+// void getCrcAndCr(T &lora, uint8_t &rxCR, bool &hasCRC, std::true_type /* is LR2021 */) {
+//     lora.getLoRaPacketStatus(&rxCR, &hasCRC, nullptr, nullptr, nullptr, nullptr);
+// }
+
+// // other types (e.g. SX126x/LR11x0)
+// template <typename T>
+// void getCrcAndCr(T &lora, uint8_t &rxCR, bool &hasCRC, std::false_type /* not LR2021 */) {
+//     lora.getLoRaRxHeaderInfo(&rxCR, &hasCRC);
+// }
+
+
 class RadioLibInterface : public RadioInterface, protected concurrency::NotifiedWorkerThread
 {
     /// Used as our notification from the ISR
@@ -244,6 +258,7 @@ class RadioLibInterface : public RadioInterface, protected concurrency::Notified
             // First get the actual coding rate and CRC status from the received packet
             uint8_t rxCR;
             bool hasCRC;
+            // getCrcAndCr(lora, rxCR, hasCRC, std::is_same<T, LR2021>());
             lora.getLoRaRxHeaderInfo(&rxCR, &hasCRC);
             // Go from raw header value to denominator
             if (rxCR < 5) {

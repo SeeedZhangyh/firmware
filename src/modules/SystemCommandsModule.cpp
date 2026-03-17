@@ -105,6 +105,9 @@ int SystemCommandsModule::handleInputEvent(const InputEvent *event)
     // Mesh ping
     case INPUT_BROKER_SEND_PING:
         service->refreshLocalMeshNode();
+
+        //double test
+        LOG_DEBUG("TEST: use double for brightness!!!!!!\n");
         if (service->trySendPosition(NODENUM_BROADCAST, true)) {
             IF_SCREEN(screen->showSimpleBanner("Position\nSent", 3000));
         } else {

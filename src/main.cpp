@@ -128,6 +128,10 @@ void printPartitionTable()
 AccelerometerThread *accelerometerThread = nullptr;
 #endif
 
+
+//test
+int iqrflag = 0;
+
 #ifdef HAS_I2S
 #include "AudioThread.h"
 AudioThread *audioThread = nullptr;
@@ -539,7 +543,8 @@ void setup()
         i2cScanner->scanPort(ScanI2C::I2CPort::WIRE);
     }
 #elif HAS_WIRE
-    i2cScanner->scanPort(ScanI2C::I2CPort::WIRE);
+    // i2cScanner->scanPort(ScanI2C::I2CPort::WIRE);
+    i2cScanner->scanPort(ScanI2C::I2CPort::WIRE,NULL,1); // scanPort with NULL/0 just does the scan without trying to read any registers, which is faster and fine for our purposes since we do a more specific read later to confirm device types
 #endif
 
     auto i2cCount = i2cScanner->countDevices();
@@ -1032,8 +1037,8 @@ bool suppressRebootBanner; // If true, suppress "Rebooting..." overlay (used for
 
 // If a thread does something that might need for it to be rescheduled ASAP it can set this flag
 // This will suppress the current delay and instead try to run ASAP.
-bool runASAP;
 
+bool runASAP;
 // TODO find better home than main.cpp
 extern meshtastic_DeviceMetadata getDeviceMetadata()
 {
