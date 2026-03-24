@@ -32,31 +32,45 @@ const uint32_t g_ADigitalPinMap[] = {
 
 void initVariant()
 {
-    // pinMode(PIN_LED1, OUTPUT);
-    // ledOff(PIN_LED1);
+    // LED1
+    pinMode(PIN_LED1, OUTPUT);
+    ledOff(PIN_LED1);
 }
 
 void variant_shutdown()
 {
-    for (int pin = 0; pin < 48; pin++) {
-        if (pin == SX126X_BUSY || pin == PIN_SPI_SCK || pin == SX126X_DIO1 || pin == PIN_SPI_MOSI || pin == PIN_SPI_MISO ||
-            pin == SX126X_CS || pin == SX126X_RESET || pin == PIN_NFC1 || pin == PIN_NFC2 || pin == PIN_BUTTON1 ||
-            pin == PIN_BUTTON2) {
-            continue;
-        }
-        pinMode(pin, OUTPUT);
-        digitalWrite(pin, LOW);
-        if (pin >= 32) {
-            NRF_P1->DIRCLR = (1 << (pin - 32));
-        } else {
-            NRF_GPIO->DIRCLR = (1 << pin);
-        }
-    }
-    nrf_gpio_cfg_input(PIN_BUTTON1, NRF_GPIO_PIN_PULLUP); // Configure the pin to be woken up as an input
-    nrf_gpio_pin_sense_t sense = NRF_GPIO_PIN_SENSE_LOW;
-    nrf_gpio_cfg_sense_set(PIN_BUTTON1, sense);
+    nrf_gpio_cfg_default(VEXT_ENABLE);
+    nrf_gpio_cfg_default(ST7735_CS);
+    nrf_gpio_cfg_default(ST7735_RS);
+    nrf_gpio_cfg_default(ST7735_SDA);
+    nrf_gpio_cfg_default(ST7735_SCK);
+    nrf_gpio_cfg_default(ST7735_RESET);
+    nrf_gpio_cfg_default(ST7735_BL);
 
-    nrf_gpio_cfg_input(PIN_BUTTON2, NRF_GPIO_PIN_PULLUP);
-    nrf_gpio_pin_sense_t sense1 = NRF_GPIO_PIN_SENSE_LOW;
-    nrf_gpio_cfg_sense_set(PIN_BUTTON2, sense1);
+    nrf_gpio_cfg_default(PIN_LED1);
+
+    // nrf_gpio_cfg_default(LORA_PA_POWER);
+    pinMode(LORA_PA_POWER, OUTPUT);
+    digitalWrite(LORA_PA_POWER, LOW);
+
+    nrf_gpio_cfg_default(LORA_KCT8103L_PA_CSD);
+    nrf_gpio_cfg_default(LORA_KCT8103L_PA_CTX);
+
+    pinMode(ADC_CTRL, OUTPUT);
+    digitalWrite(ADC_CTRL, LOW);
+
+    nrf_gpio_cfg_default(SX126X_CS);
+    nrf_gpio_cfg_default(SX126X_DIO1);
+    nrf_gpio_cfg_default(SX126X_BUSY);
+    nrf_gpio_cfg_default(SX126X_RESET);
+
+    nrf_gpio_cfg_default(PIN_SPI_MISO);
+    nrf_gpio_cfg_default(PIN_SPI_MOSI);
+    nrf_gpio_cfg_default(PIN_SPI_SCK);
+
+    nrf_gpio_cfg_default(PIN_GPS_PPS);
+    nrf_gpio_cfg_default(PIN_GPS_RESET);
+    nrf_gpio_cfg_default(PIN_GPS_EN);
+    nrf_gpio_cfg_default(GPS_TX_PIN);
+    nrf_gpio_cfg_default(GPS_RX_PIN);
 }
