@@ -330,7 +330,7 @@ int32_t EnvironmentTelemetryModule::runOnce()
                 result = delay;
             }
         }
-        LOG_INFO("Environment Telemetry: runOnce init");
+
         uint32_t lastTelemetry =
             transmitHistory ? transmitHistory->getLastSentToMeshMillis(TX_HISTORY_KEY_ENVIRONMENT_TELEMETRY) : 0;
         if (((lastTelemetry == 0) ||
