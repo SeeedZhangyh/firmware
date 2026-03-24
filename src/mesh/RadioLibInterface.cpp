@@ -68,16 +68,14 @@ void INTERRUPT_ATTR RadioLibInterface::isrLevel0Common(PendingISR cause)
 
 void INTERRUPT_ATTR RadioLibInterface::isrRxLevel0()
 {
-    iqrflag = 2;
     isrLevel0Common(ISR_RX);
 }
 
 void INTERRUPT_ATTR RadioLibInterface::isrTxLevel0()
 {
     isrLevel0Common(ISR_TX);
-    // instance->disableInterrupt();
-    iqrflag = 1;
 }
+
 
 /** Our ISR code currently needs this to find our active instance
  */
@@ -571,7 +569,6 @@ bool RadioLibInterface::startSend(meshtastic_MeshPacket *txp)
 
         size_t numbytes = beginSending(txp);
 
-        // enableInterrupt(isrTxLevel0);
         int res = iface->startTransmit((uint8_t *)&radioBuffer, numbytes);
         if (res != RADIOLIB_ERR_NONE) {
             LOG_ERROR("startTransmit failed, error=%d", res);

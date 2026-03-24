@@ -128,10 +128,6 @@ void printPartitionTable()
 AccelerometerThread *accelerometerThread = nullptr;
 #endif
 
-
-//test
-int iqrflag = 0;
-
 #ifdef HAS_I2S
 #include "AudioThread.h"
 AudioThread *audioThread = nullptr;
@@ -544,7 +540,7 @@ void setup()
     }
 #elif HAS_WIRE
     // i2cScanner->scanPort(ScanI2C::I2CPort::WIRE);
-    i2cScanner->scanPort(ScanI2C::I2CPort::WIRE,NULL,1); // scanPort with NULL/0 just does the scan without trying to read any registers, which is faster and fine for our purposes since we do a more specific read later to confirm device types
+    // i2cScanner->scanPort(ScanI2C::I2CPort::WIRE,NULL,1); // scanPort with NULL/0 
 #endif
 
     auto i2cCount = i2cScanner->countDevices();
@@ -755,6 +751,20 @@ void setup()
         ambientLightingThread = new AmbientLightingThread(rgb_found.type);
     }
 #endif
+
+    // if have two accelerometers, init.
+#if !defined(ARCH_STM32WL) && defined(HAS_BMM150)
+    if (acc_info.type != ScanI2C::DeviceType::NONE && acc_info.type != ScanI2C::DeviceType::BMM150) {
+            auto acc_info2 = i2cScanner->find(ScanI2C::DeviceType::BMM150);
+            if(acc_info2.type != ScanI2C::DeviceType::NONE){
+                accelerometerThread = new AccelerometerThread(acc_info2);
+            }else{
+                LOG_DEBUG("Don't found one BMM150, not initializing second acc thread");
+            }
+                
+        }
+#endif
+
 #endif
 
 #ifdef HAS_DRV2605
@@ -763,10 +773,24 @@ void setup()
     digitalWrite(PIN_DRV_EN, HIGH);
     delay(10);
 #endif
+#if defined(DRV2605_USE_WIRE1)
+    if (drv.begin(&Wire1) == false) {
+        LOG_ERROR("Failed to find DRV2605 on Wire1");
+    }
+    drv.selectLibrary(1);
+    // I2C trigger by sending 'go' command
+    drv.setMode(DRV2605_MODE_INTTRIG);
+    if (drv.readRegister8(DRV2605_REG_LIBRARY) == 1 && drv.readRegister8(DRV2605_REG_MODE) == DRV2605_MODE_INTTRIG) {       
+        LOG_INFO("Successfully initialized DRV2605 on Wire1");
+    }else{
+        LOG_ERROR("Failed to read DRV2605 register");
+    } 
+#else
     drv.begin();
     drv.selectLibrary(1);
     // I2C trigger by sending 'go' command
     drv.setMode(DRV2605_MODE_INTTRIG);
+#endif
 #endif
 
     // Init our SPI controller (must be before screen and lora)

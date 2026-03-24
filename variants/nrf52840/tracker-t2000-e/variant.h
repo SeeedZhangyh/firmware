@@ -54,6 +54,7 @@ extern "C" {
 #define LED_POWER PIN_LED1
 #define LED_BLUE -1    // Actually green
 #define LED_STATE_ON 1 // State when LED is lit
+#define LED_BLUE_PIN (0 + 28) // P0.28, blue led
 
 //ARCH_NRF52 auto define HAS_BUTTON 1
 #define HAS_BUTTON 1
@@ -62,17 +63,29 @@ extern "C" {
 #define BUTTON_ACTIVE_PULLUP false
 #define BUTTON_SENSE_TYPE 0x5 // enable input pull-down
 
-#define HAS_WIRE 1
+/****************  Sensor *******************/
 
-#define WIRE_INTERFACES_COUNT 1    //have 2 I2C interfaces, Wire and Wire1
+#define HAS_WIRE 1
+#define WIRE_INTERFACES_COUNT 2    //have 2 I2C interfaces, Wire and Wire1
 
 #define PIN_WIRE_SDA (0 + 26)      // P0.26
 #define PIN_WIRE_SCL (0 + 27)      // P0.27
 #define I2C_NO_RESCAN              // I2C is a bit finicky, don't scan too much
 
-//添加LSM6DSOWTR  陀螺仪/加速度计传感器   BMM150  磁力计传感器 挂在第二条总线上
-// #define HAS_QMA6100P               // very rare beast, only on this board.
-// #define QMA_6100P_INT_PIN (32 + 2) // P1.02
+#define PIN_WIRE1_SDA (32 + 15)     // P1.15
+#define PIN_WIRE1_SCL (32 + 14)     // P1.14
+
+#define HAS_DRV2605 1              // haptic driver
+#define DRV2605_USE_WIRE1 1 
+#define PIN_DRV_EN  (32 + 5)       // P1.05, Power to haptic driver
+
+#define HAS_BMM150  1
+#define BMM150_USE_WIRE1 1
+#define BMM150_I2C_ADDRESS 0x12
+#define BMM150_INT  (32 + 12) // P1.12
+
+#define HAS_SPL06 1   //use for isolated pressure sensor, if have, will not init DPS310, because they use same I2C address and can't coexist.
+
 
 /*
  * Serial interfaces
@@ -100,8 +113,6 @@ extern "C" {
 
 // supported modules list
 #define USE_LR2021
-
-
 #define IQR_DIO_NUM 8
 
 #define LR2021_IRQ_PIN      LORA_DIO1
@@ -116,8 +127,8 @@ extern "C" {
 // #define LR2021_DIO_AS_RF_SWITCH
 
 
-// GPS  还要确认一下引脚，是否正确，是有修改的
-#define HAS_GPS 0
+// GPS  
+#define HAS_GPS 1
 #define GNSS_AIROHA
 #define GPS_RX_PIN PIN_SERIAL1_RX
 #define GPS_TX_PIN PIN_SERIAL1_TX
@@ -128,13 +139,13 @@ extern "C" {
 #define PIN_GPS_EN (32 + 11) // P1.11
 #define GPS_EN_ACTIVE HIGH
 
-#define PIN_GPS_RESET (32 + 15) // P1.15
+#define PIN_GPS_RESET (0 + 8) // P0.8
 #define GPS_RESET_MODE HIGH
 
-#define GPS_VRTC_EN (0 + 8)      // P0.8, always high
-#define GPS_SLEEP_INT (32 + 12)  // P1.12, always high
-#define GPS_RTC_INT (0 + 15)     // P0.15, normal is LOW, wake by HIGH
-#define GPS_RESETB_OUT (32 + 14) // P1.14, always input pull_up
+#define GPS_VRTC_EN (1 + 13)      // P1.13, always high
+#define GPS_SLEEP_INT (0 + 30)  // P1.12, always high
+#define GPS_RTC_INT (0 + 29)     // P0.15, normal is LOW, wake by HIGH
+// #define GPS_RESETB_OUT (32 + 14) // P1.14, always input pull_up
 
 #define BATTERY_PIN 2 // P0.02/AIN0, BAT_ADC
 #define BATTERY_IMMUTABLE
@@ -161,11 +172,10 @@ extern "C" {
 #define BUZZER_EN_PIN (32 + 5) // P1.05, always high
 #define PIN_BUZZER (0 + 25)    // P0.25, pwm output
 
-//不知道这里干啥的
-#define T1000X_SENSOR_EN
-#define T1000X_VCC_PIN (0 + 4)  // P0.4
-#define T1000X_NTC_PIN (0 + 31) // P0.31/AIN7
-#define T1000X_LUX_PIN (0 + 29) // P0.29/AIN5
+// #define T1000X_SENSOR_EN
+// #define T1000X_VCC_PIN (0 + 4)  // P0.4
+// #define T1000X_NTC_PIN (0 + 31) // P0.31/AIN7
+// #define T1000X_LUX_PIN (0 + 29) // P0.29/AIN5
 
 #define HAS_SCREEN 0
 

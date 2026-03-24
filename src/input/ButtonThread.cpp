@@ -116,7 +116,7 @@ bool ButtonThread::initButton(const ButtonConfig &config)
 #endif
     return true;
 }
-uint32_t old_time = 0;
+
 int32_t ButtonThread::runOnce()
 {
     // If the button is pressed we suppress CPU sleep until release
@@ -133,20 +133,6 @@ int32_t ButtonThread::runOnce()
     // Check if we should play lead-up sound during long press
     // Play lead-up when button has been held for BUTTON_LEADUP_MS but before long press triggers
     bool buttonCurrentlyPressed = isButtonPressed(_pinNum);
-
-    if(iqrflag)
-    {
-        if(iqrflag == 1)
-        {
-            
-            LOG_INFO("irq from send done!\n");
-
-        }else{
-            LOG_INFO("irq from recv done!\n");
-        }
-
-        iqrflag = 0;
-    }
 
     // Detect start of button press
     if (buttonCurrentlyPressed && !buttonWasPressed) {

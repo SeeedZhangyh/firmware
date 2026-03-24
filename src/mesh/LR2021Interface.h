@@ -10,6 +10,6 @@ class LR2021Interface : public LR20x0Interface<LR2021>
   public:
     LR2021Interface(LockingArduinoHal *hal, RADIOLIB_PIN_TYPE cs, RADIOLIB_PIN_TYPE irq, RADIOLIB_PIN_TYPE rst,
                     RADIOLIB_PIN_TYPE busy);
-    // bool wideLora() override;
+
 };
 #endif

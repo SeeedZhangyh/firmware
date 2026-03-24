@@ -33,14 +33,7 @@ const uint32_t g_ADigitalPinMap[] = {
 
 void initVariant()
 {
-
-
-    LOG_INFO("really i use this fountion?");
-    LOG_INFO("really i use this fountion?");
-    LOG_INFO("really i use this fountion?");
-    LOG_INFO("really i use this fountion?");
-
-
+    // Power to sensors
     pinMode(PIN_3V3_EN, OUTPUT);
     digitalWrite(PIN_3V3_EN, HIGH);
 
@@ -48,8 +41,12 @@ void initVariant()
     pinMode(PIN_BAT_ADC_EN, OUTPUT);
     digitalWrite(PIN_BAT_ADC_EN, HIGH);
 
+    // Turn off LED_BLUE
+    pinMode(LED_BLUE_PIN, OUTPUT);
+    digitalWrite(LED_BLUE_PIN, LOW);
+
     pinMode(PIN_RTC_EN, OUTPUT);
-    digitalWrite(PIN_RTC_EN, HIGH);
+    digitalWrite(PIN_RTC_EN, LOW);
 
     pinMode(BUZZER_EN_PIN, OUTPUT);
     digitalWrite(BUZZER_EN_PIN, HIGH);
@@ -69,5 +66,5 @@ void initVariant()
     pinMode(GPS_RTC_INT, OUTPUT);
     digitalWrite(GPS_RTC_INT, LOW);
 
-    pinMode(GPS_RESETB_OUT, INPUT);
+    // pinMode(GPS_RESETB_OUT, INPUT);
 }

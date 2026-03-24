@@ -123,8 +123,13 @@ extern void drawCommonHeader(OLEDDisplay *display, int16_t x, int16_t y, const c
 #endif
 
 #endif
+
 #ifdef T1000X_SENSOR_EN
 #include "Sensor/T1000xSensor.h"
+#endif
+
+#if __has_include(<Adafruit_SPA06_003.h>)
+#include "Sensor/SPA06Sensor.h"
 #endif
 
 #ifdef SENSECAP_INDICATOR
@@ -166,12 +171,17 @@ void EnvironmentTelemetryModule::i2cScanFinished(ScanI2C *i2cScanner)
     // Not a real I2C device, uses UART
     addSensor<IndicatorSensor>(i2cScanner, ScanI2C::DeviceType::NONE);
 #endif
-    addSensor<RCWL9620Sensor>(i2cScanner, ScanI2C::DeviceType::RCWL9620);
-    addSensor<CGRadSensSensor>(i2cScanner, ScanI2C::DeviceType::CGRADSENS);
+
 #endif
 #endif
 
+#if HAS_SPL06 && __has_include(<Adafruit_SPA06_003.h>)
+    addSensor<SPA06Sensor>(i2cScanner, ScanI2C::DeviceType::DPS310);
+#endif
+
 #if !MESHTASTIC_EXCLUDE_ENVIRONMENTAL_SENSOR && !MESHTASTIC_EXCLUDE_ENVIRONMENTAL_SENSOR_EXTERNAL
+    addSensor<RCWL9620Sensor>(i2cScanner, ScanI2C::DeviceType::RCWL9620);
+    addSensor<CGRadSensSensor>(i2cScanner, ScanI2C::DeviceType::CGRADSENS);
 #if __has_include(<DFRobot_LarkWeatherStation.h>)
     addSensor<DFRobotLarkSensor>(i2cScanner, ScanI2C::DeviceType::DFROBOT_LARK);
 #endif
@@ -196,7 +206,7 @@ void EnvironmentTelemetryModule::i2cScanFinished(ScanI2C *i2cScanner)
 #if __has_include(<Adafruit_BMP280.h>)
     addSensor<BMP280Sensor>(i2cScanner, ScanI2C::DeviceType::BMP_280);
 #endif
-#if __has_include(<Adafruit_DPS310.h>)
+#if !HAS_SPL06 && __has_include(<Adafruit_DPS310.h>)
     addSensor<DPS310Sensor>(i2cScanner, ScanI2C::DeviceType::DPS310);
 #endif
 #if __has_include(<Adafruit_MCP9808.h>)
@@ -320,7 +330,7 @@ int32_t EnvironmentTelemetryModule::runOnce()
                 result = delay;
             }
         }
-
+        LOG_INFO("Environment Telemetry: runOnce init");
         uint32_t lastTelemetry =
             transmitHistory ? transmitHistory->getLastSentToMeshMillis(TX_HISTORY_KEY_ENVIRONMENT_TELEMETRY) : 0;
         if (((lastTelemetry == 0) ||
@@ -546,6 +556,7 @@ bool EnvironmentTelemetryModule::getEnvironmentTelemetry(meshtastic_Telemetry *m
     m->variant.environment_metrics = meshtastic_EnvironmentMetrics_init_zero;
 
     for (TelemetrySensor *sensor : sensors) {
+        LOG_DEBUG("Getting metrics from sensor: %s", sensor->sensorName);
         get_metrics = sensor->getMetrics(m); // avoid short-circuit evaluation rules
         valid = valid || get_metrics;
         hasSensor = true;

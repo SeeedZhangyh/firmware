@@ -9,9 +9,4 @@ LR2021Interface::LR2021Interface(LockingArduinoHal *hal, RADIOLIB_PIN_TYPE cs, R
     : LR20x0Interface(hal, cs, irq, rst, busy)
 {
 }
-
-// bool LR2021Interface::wideLora()
-// {
-//     return true;
-// }
 #endif
