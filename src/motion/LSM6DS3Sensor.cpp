@@ -15,10 +15,10 @@ bool Adafruit_LSM6DS3TRC_Compat::_init(int32_t sensor_id)
     uint8_t id = chipID();
 
     if (id != LSM6DS3TRC_CHIP_ID && id != LSM6DS3TRC_CHIP_ID_ALT) {
-        LOG_WARN("LSM6DS3TRC_Compat: unexpected WHO_AM_I=0x%02X\n", id);
+        LOG_WARN("LSM6DS3TRC_Compat: unexpected WHO_AM_I=0x%02X", id);
         return false;
     }
-    LOG_DEBUG("LSM6DS3TRC_Compat: WHO_AM_I=0x%02X accepted\n", id);
+    LOG_DEBUG("LSM6DS3TRC_Compat: WHO_AM_I=0x%02X accepted", id);
 
     _sensorid_accel = sensor_id;
     _sensorid_gyro  = sensor_id + 1;

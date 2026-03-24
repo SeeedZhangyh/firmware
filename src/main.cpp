@@ -539,7 +539,7 @@ void setup()
         i2cScanner->scanPort(ScanI2C::I2CPort::WIRE);
     }
 #elif HAS_WIRE
-    // i2cScanner->scanPort(ScanI2C::I2CPort::WIRE);
+    i2cScanner->scanPort(ScanI2C::I2CPort::WIRE);
     // i2cScanner->scanPort(ScanI2C::I2CPort::WIRE,NULL,1); // scanPort with NULL/0 
 #endif
 

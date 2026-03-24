@@ -46,7 +46,7 @@ void initVariant()
     digitalWrite(LED_BLUE_PIN, LOW);
 
     pinMode(PIN_RTC_EN, OUTPUT);
-    digitalWrite(PIN_RTC_EN, LOW);
+    digitalWrite(PIN_RTC_EN, HIGH);
 
     pinMode(BUZZER_EN_PIN, OUTPUT);
     digitalWrite(BUZZER_EN_PIN, HIGH);
