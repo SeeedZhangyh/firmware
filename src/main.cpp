@@ -539,8 +539,11 @@ void setup()
         i2cScanner->scanPort(ScanI2C::I2CPort::WIRE);
     }
 #elif HAS_WIRE
+#ifdef WIRE_NO_SCAN
+    i2cScanner->scanPort(ScanI2C::I2CPort::WIRE,NULL,1); // scanPort with NULL/0 
+#else
     i2cScanner->scanPort(ScanI2C::I2CPort::WIRE);
-    // i2cScanner->scanPort(ScanI2C::I2CPort::WIRE,NULL,1); // scanPort with NULL/0 
+#endif
 #endif
 
     auto i2cCount = i2cScanner->countDevices();

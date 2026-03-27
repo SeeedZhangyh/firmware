@@ -46,10 +46,10 @@ void initVariant()
     digitalWrite(LED_BLUE_PIN, LOW);
 
     pinMode(PIN_RTC_EN, OUTPUT);
-    digitalWrite(PIN_RTC_EN, HIGH);
+    digitalWrite(PIN_RTC_EN, LOW);
 
-    pinMode(BUZZER_EN_PIN, OUTPUT);
-    digitalWrite(BUZZER_EN_PIN, HIGH);
+    pinMode(MOTOR_EN_PIN, OUTPUT);
+    digitalWrite(MOTOR_EN_PIN, HIGH);
 
     pinMode(PIN_GPS_EN, OUTPUT);
     digitalWrite(PIN_GPS_EN, LOW);

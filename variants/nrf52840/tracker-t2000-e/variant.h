@@ -71,6 +71,7 @@ extern "C" {
 #define PIN_WIRE_SDA (0 + 26)      // P0.26
 #define PIN_WIRE_SCL (0 + 27)      // P0.27
 #define I2C_NO_RESCAN              // I2C is a bit finicky, don't scan too much
+#define WIRE_NO_SCAN               // I2C no use ,donlt scan bus,
 
 #define PIN_WIRE1_SDA (32 + 15)     // P1.15
 #define PIN_WIRE1_SCL (32 + 14)     // P1.14
@@ -142,7 +143,7 @@ extern "C" {
 #define PIN_GPS_RESET (0 + 8) // P0.8
 #define GPS_RESET_MODE HIGH
 
-#define GPS_VRTC_EN (1 + 13)      // P1.13, always high
+#define GPS_VRTC_EN (32 + 13)      // P1.13, always high
 #define GPS_SLEEP_INT (0 + 30)  // P1.12, always high
 #define GPS_RTC_INT (0 + 29)     // P0.15, normal is LOW, wake by HIGH
 // #define GPS_RESETB_OUT (32 + 14) // P1.14, always input pull_up
@@ -169,8 +170,10 @@ extern "C" {
 #define OCV_ARRAY 4190, 4042, 3957, 3885, 3820, 3776, 3746, 3725, 3696, 3644, 3100
 
 // Buzzer
-#define BUZZER_EN_PIN (32 + 5) // P1.05, always high
 #define PIN_BUZZER (0 + 25)    // P0.25, pwm output
+
+// Motor  todo:sleep mode should set this pin to LOW, but currently it's always HIGH because of the hardware design.
+#define MOTOR_EN_PIN (32 + 5) // P1.05, always high
 
 // #define T1000X_SENSOR_EN
 // #define T1000X_VCC_PIN (0 + 4)  // P0.4

@@ -92,7 +92,8 @@ template <typename T> bool LR20x0Interface<T>::init()
 #endif
 
     delay(10);
-
+    LOG_INFO("Initializing LR20x0 radio (freq=%f, bw=%f, sf=%d, cr=%d, syncWord=%d, power=%d, preambleLength=%d, tcxoVoltage=%f)", 
+                                                                getFreq(), bw, sf, cr, syncWord, power, preambleLength, tcxoVoltage);
     int res = lora.begin(getFreq(), bw, sf, cr, syncWord, power, preambleLength, tcxoVoltage);
 
     if (res == RADIOLIB_ERR_SPI_CMD_FAILED) {
