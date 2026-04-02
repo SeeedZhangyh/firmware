@@ -121,7 +121,6 @@ extern void drawCommonHeader(OLEDDisplay *display, int16_t x, int16_t y, const c
 #if __has_include(<Adafruit_PCT2075.h>)
 #include "Sensor/PCT2075Sensor.h"
 #endif
-
 #endif
 
 #ifdef T1000X_SENSOR_EN
@@ -206,7 +205,7 @@ void EnvironmentTelemetryModule::i2cScanFinished(ScanI2C *i2cScanner)
 #if __has_include(<Adafruit_BMP280.h>)
     addSensor<BMP280Sensor>(i2cScanner, ScanI2C::DeviceType::BMP_280);
 #endif
-#if !HAS_SPL06 && __has_include(<Adafruit_DPS310.h>)
+#if __has_include(<Adafruit_DPS310.h>)
     addSensor<DPS310Sensor>(i2cScanner, ScanI2C::DeviceType::DPS310);
 #endif
 #if __has_include(<Adafruit_MCP9808.h>)
