@@ -109,7 +109,7 @@ extern "C" {
 
 // supported modules list
 #define USE_LR2021
-#define IQR_DIO_NUM 5
+#define IQR_DIO_NUM 8
 
 #define LR2021_IRQ_PIN      LORA_DIO1
 #define LR2021_NRESET_PIN   LORA_RESET
