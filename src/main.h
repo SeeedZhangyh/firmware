@@ -42,7 +42,7 @@ extern bool eink_found;
 extern bool pmu_found;
 extern bool isUSBPowered;
 
-#ifdef HAS_DRV2605
+#if __has_include(<Adafruit_DRV2605.h>) && defined(HAS_DRV2605)
 #include <Adafruit_DRV2605.h>
 extern Adafruit_DRV2605 drv;
 #endif

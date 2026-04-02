@@ -94,7 +94,8 @@ class ScanI2C
         SFA30,
         CW2015,
         SCD30,
-        ADS1115
+        ADS1115,
+        SPA06
     } DeviceType;
 
     // typedef uint8_t DeviceAddress;

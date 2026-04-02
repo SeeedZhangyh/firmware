@@ -46,7 +46,7 @@ LSM6DS3Sensor::LSM6DS3Sensor(ScanI2C::FoundDevice foundDevice) : MotionSensor::M
 
 bool LSM6DS3Sensor::init()
 {
-    if (sensor.begin_I2C(deviceAddress(), devicePort() == ScanI2C::I2CPort::WIRE1 ? &Wire1 : &Wire)) {
+    if (sensor.begin_I2C(deviceAddress())) {
 
         // Default threshold of 2G, less sensitive options are 4, 8 or 16G
         sensor.setAccelRange(LSM6DS_ACCEL_RANGE_2_G);
@@ -67,6 +67,30 @@ int32_t LSM6DS3Sensor::runOnce()
         wakeScreen();
         return 500;
     }
+    // // Show data test
+    // if (1) {
+    //     float x, y, z;
+    //     bool available = sensor.accelerationAvailable();
+    //     LOG_DEBUG("LSM6DS3 accelerationAvailable: %d\n", available);
+    //     if (!available) {
+    //         x = y = z = NAN;
+    //         return 1000;
+    //     }else{
+    //         sensor.readAcceleration(x, y, z);
+    //         LOG_DEBUG("LSM6DS3 readAcceleration: x=%.2f y=%.2f z=%.2f\n", x, y, z);
+    //     }   
+
+    //     available = sensor.gyroscopeAvailable();
+    //     LOG_DEBUG("LSM6DS3 gyroscopeAvailable: %d\n", available);
+    //     if (!available) {
+    //         x = y = z = NAN;
+    //         return 1000;
+    //     }else{
+    //         sensor.readGyroscope(x, y, z);
+    //         LOG_DEBUG("LSM6DS3 readGyroscope:    x=%.2f y=%.2f z=%.2f\n", x, y, z);           
+    //     }
+    //     return 1000;
+    // }
     return MOTION_SENSOR_CHECK_INTERVAL_MS;
 }
 

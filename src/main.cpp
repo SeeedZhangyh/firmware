@@ -539,11 +539,7 @@ void setup()
         i2cScanner->scanPort(ScanI2C::I2CPort::WIRE);
     }
 #elif HAS_WIRE
-#ifdef WIRE_NO_SCAN
-    i2cScanner->scanPort(ScanI2C::I2CPort::WIRE,NULL,1); // scanPort with NULL/0 
-#else
     i2cScanner->scanPort(ScanI2C::I2CPort::WIRE);
-#endif
 #endif
 
     auto i2cCount = i2cScanner->countDevices();
@@ -755,14 +751,14 @@ void setup()
     }
 #endif
 
-    // if have two accelerometers, init.
+    // if have bm150, init.
 #if !defined(ARCH_STM32WL) && defined(HAS_BMM150)
     if (acc_info.type != ScanI2C::DeviceType::NONE && acc_info.type != ScanI2C::DeviceType::BMM150) {
-            auto acc_info2 = i2cScanner->find(ScanI2C::DeviceType::BMM150);
-            if(acc_info2.type != ScanI2C::DeviceType::NONE){
-                accelerometerThread = new AccelerometerThread(acc_info2);
+            auto bmm150 = i2cScanner->find(ScanI2C::DeviceType::BMM150);
+            if(bmm150.type != ScanI2C::DeviceType::NONE){
+                accelerometerThread = new AccelerometerThread(bmm150);
             }else{
-                LOG_DEBUG("Don't found one BMM150, not initializing second acc thread");
+                LOG_DEBUG("Don't found one BMM150, not initializing bmm150 thread");
             }
                 
         }
@@ -776,7 +772,7 @@ void setup()
     digitalWrite(PIN_DRV_EN, HIGH);
     delay(10);
 #endif
-#if defined(DRV2605_USE_WIRE1)
+#if defined(DRV2605_USE_WIRE1) && WIRE_INTERFACES_COUNT > 1
     if (drv.begin(&Wire1) == false) {
         LOG_ERROR("Failed to find DRV2605 on Wire1");
     }
@@ -786,7 +782,7 @@ void setup()
     if (drv.readRegister8(DRV2605_REG_LIBRARY) == 1 && drv.readRegister8(DRV2605_REG_MODE) == DRV2605_MODE_INTTRIG) {       
         LOG_INFO("Successfully initialized DRV2605 on Wire1");
     }else{
-        LOG_ERROR("Failed to read DRV2605 register");
+        LOG_ERROR("Failed to initialize DRV2605");
     } 
 #else
     drv.begin();

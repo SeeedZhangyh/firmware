@@ -1,13 +1,13 @@
 #include "configuration.h"
 
-#if !MESHTASTIC_EXCLUDE_ENVIRONMENTAL_SENSOR && __has_include(<Adafruit_DPS310.h>)
+#if !MESHTASTIC_EXCLUDE_ENVIRONMENTAL_SENSOR && __has_include(<Adafruit_SPA06_003.h>)
 
 #include "../mesh/generated/meshtastic/telemetry.pb.h"
 #include "SPA06Sensor.h"
 #include "TelemetrySensor.h"
 #include <Adafruit_SPA06_003.h>
 
-SPA06Sensor::SPA06Sensor() : TelemetrySensor(meshtastic_TelemetrySensorType_DPS310, "SPA06") {}
+SPA06Sensor::SPA06Sensor() : TelemetrySensor(meshtastic_TelemetrySensorType_SPA06, "SPA06") {}
 
 bool SPA06Sensor::initDevice(TwoWire *bus, ScanI2C::FoundDevice *dev)
 {

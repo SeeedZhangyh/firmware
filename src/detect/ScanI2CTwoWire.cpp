@@ -343,10 +343,10 @@ void ScanI2CTwoWire::scanPort(I2CPort port, uint8_t *address, uint8_t asize)
                     //SPA06
                     case 0x11:
                         logFoundDevice("SPA06-003", (uint8_t)addr.address);
-                        type = DPS310;
+                        type = SPA06;
                         break;                    
                     }
-                    if (type == DPS310) {
+                    if (type == DPS310 || type == SPA06) {
                         break;
                     }
                 default:
@@ -527,7 +527,7 @@ void ScanI2CTwoWire::scanPort(I2CPort port, uint8_t *address, uint8_t asize)
 #ifdef HAS_QMA6100P
                 SCAN_SIMPLE_CASE(QMA6100P_ADDR, QMA6100P, "QMA6100P", (uint8_t)addr.address)
 #elif  HAS_BMM150
-                SCAN_SIMPLE_CASE(QMA6100P_ADDR, BMM150, "BMM150", (uint8_t)addr.address)
+                SCAN_SIMPLE_CASE(BMM150_ADDR1, BMM150, "BMM150", (uint8_t)addr.address)
 #else
                 SCAN_SIMPLE_CASE(PMSA003I_ADDR, PMSA003I, "PMSA003I", (uint8_t)addr.address)
 #endif

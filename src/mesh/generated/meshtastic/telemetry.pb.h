@@ -113,7 +113,9 @@ typedef enum _meshtastic_TelemetrySensorType {
     /* SCD30 CO2, humidity, temperature sensor */
     meshtastic_TelemetrySensorType_SCD30 = 49,
     /* SHT family of sensors for temperature and humidity */
-    meshtastic_TelemetrySensorType_SHTXX = 50
+    meshtastic_TelemetrySensorType_SHTXX = 50,
+    /* SPA06, pressure and temperature */
+    meshtastic_TelemetrySensorType_SPA06 = 51
 } meshtastic_TelemetrySensorType;
 
 /* Struct definitions */

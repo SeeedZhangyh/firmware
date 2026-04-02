@@ -45,11 +45,11 @@ void initVariant()
     pinMode(LED_BLUE_PIN, OUTPUT);
     digitalWrite(LED_BLUE_PIN, LOW);
 
+    pinMode(PIN_DRV_EN, OUTPUT);
+    digitalWrite(PIN_DRV_EN, LOW);
+
     pinMode(PIN_RTC_EN, OUTPUT);
     digitalWrite(PIN_RTC_EN, LOW);
-
-    pinMode(MOTOR_EN_PIN, OUTPUT);
-    digitalWrite(MOTOR_EN_PIN, HIGH);
 
     pinMode(PIN_GPS_EN, OUTPUT);
     digitalWrite(PIN_GPS_EN, LOW);
@@ -66,5 +66,4 @@ void initVariant()
     pinMode(GPS_RTC_INT, OUTPUT);
     digitalWrite(GPS_RTC_INT, LOW);
 
-    // pinMode(GPS_RESETB_OUT, INPUT);
 }

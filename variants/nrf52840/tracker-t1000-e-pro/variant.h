@@ -16,8 +16,8 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-#ifndef _VARIANT_TRACKER_T2000_E_
-#define _VARIANT_TRACKER_T2000_E_
+#ifndef _VARIANT_TRACKER_T1000_E_PRO
+#define _VARIANT_TRACKER_T1000_E_PRO
 
 /** Master clock frequency */
 #define VARIANT_MCK (64000000ul)
@@ -43,50 +43,45 @@ extern "C" {
 // Use the native nrf52 usb power detection
 #define NRF_APM
 
-#define PIN_BAT_ADC_EN (32 + 6) // P1.6, Power to battery ADC
-#define PIN_3V3_EN (32 + 7)         // P1.7, Power to Sensors
-#define PIN_RTC_EN (0 + 9)         // P0.9, Power to Sensors
-
-
 //PIN_3V3_EN use in deep sleep , as power pin.
+#define PIN_3V3_EN (32 + 7)         // P1.7, Power to Sensors
+#define PIN_BAT_ADC_EN (32 + 6)     // P1.6, Power to battery ADC
+#define PIN_RTC_EN (0 + 9)          // P0.9, Power to RTC
 
-#define PIN_LED1 (0 + 24) // P0.24    green led
+#define PIN_LED1 (0 + 24)           // P0.24, green led
 #define LED_POWER PIN_LED1
-#define LED_BLUE -1    // Actually green
-#define LED_STATE_ON 1 // State when LED is lit
-#define LED_BLUE_PIN (0 + 28) // P0.28, blue led
+#define LED_BLUE -1                 // Actually green
+#define LED_STATE_ON 1              // State when LED is lit
+#define LED_BLUE_PIN (0 + 28)       // P0.28, blue led
 
 //ARCH_NRF52 auto define HAS_BUTTON 1
 #define HAS_BUTTON 1
-#define BUTTON_PIN (0 + 6) // P0.06
+#define BUTTON_PIN (0 + 6)          // P0.06
 #define BUTTON_ACTIVE_LOW false
 #define BUTTON_ACTIVE_PULLUP false
-#define BUTTON_SENSE_TYPE 0x5 // enable input pull-down
+#define BUTTON_SENSE_TYPE 0x5       // enable input pull-down
 
 /****************  Sensor *******************/
 
 #define HAS_WIRE 1
-#define WIRE_INTERFACES_COUNT 2    //have 2 I2C interfaces, Wire and Wire1
+#define WIRE_INTERFACES_COUNT 1     //have 1 I2C interface, Wire  
 
-#define PIN_WIRE_SDA (0 + 26)      // P0.26
-#define PIN_WIRE_SCL (0 + 27)      // P0.27
-#define I2C_NO_RESCAN              // I2C is a bit finicky, don't scan too much
-#define WIRE_NO_SCAN               // I2C no use ,donlt scan bus,
+#define PIN_WIRE_SDA (32 + 15)     // P1.15
+#define PIN_WIRE_SCL (32 + 14)     // P1.14
+#define I2C_NO_RESCAN               // I2C is a bit finicky, don't scan too much
 
-#define PIN_WIRE1_SDA (32 + 15)     // P1.15
-#define PIN_WIRE1_SCL (32 + 14)     // P1.14
+//if use two I2C interfaces, you should set PIN_RTC_EN HIGH, because the RTC is on the second I2C bus, and if it's LOW, will get err.
+// #define PIN_WIRE1_SDA (0 + 26)       // P0.26
+// #define PIN_WIRE1_SCL (0 + 27)       // P0.27
 
-#define HAS_DRV2605 1              // haptic driver
-#define DRV2605_USE_WIRE1 1 
-#define PIN_DRV_EN  (32 + 5)       // P1.05, Power to haptic driver
+#define HAS_DRV2605 1               // haptic driver
+#define PIN_DRV_EN  (32 + 5)        // P1.05, Power to haptic driver
 
 #define HAS_BMM150  1
 #define BMM150_USE_WIRE1 1
-#define BMM150_I2C_ADDRESS 0x12
-#define BMM150_INT  (32 + 12) // P1.12
+#define BMM150_INT  (32 + 12)       // P1.12
 
-#define HAS_SPL06 1   //use for isolated pressure sensor, if have, will not init DPS310, because they use same I2C address and can't coexist.
-
+#define HAS_SPA06 1
 
 /*
  * Serial interfaces
@@ -99,14 +94,14 @@ extern "C" {
 
 #define SPI_INTERFACES_COUNT 1
 
-#define PIN_SPI_MISO (32 + 8) // P1.08
-#define PIN_SPI_MOSI (32 + 9) // P1.09
-#define PIN_SPI_SCK (0 + 11)  // P0.11
-#define PIN_SPI_NSS (0 + 12)  // P0.12
+#define PIN_SPI_MISO (32 + 8)   // P1.08
+#define PIN_SPI_MOSI (32 + 9)   // P1.09
+#define PIN_SPI_SCK (0 + 11)    // P0.11
+#define PIN_SPI_NSS (0 + 12)    // P0.12
 
-#define LORA_RESET (32 + 10) // P1.10 // RST
-#define LORA_DIO1 (32 + 1)   // P1.01 // IRQ
-#define LORA_DIO2 (0 + 7)    // P0.07 // BUSY
+#define LORA_RESET (32 + 10)    // P1.10 // RST
+#define LORA_DIO1 (32 + 1)      // P1.01 // IRQ
+#define LORA_DIO2 (0 + 7)       // P0.07 // BUSY
 #define LORA_SCK PIN_SPI_SCK
 #define LORA_MISO PIN_SPI_MISO
 #define LORA_MOSI PIN_SPI_MOSI
@@ -114,7 +109,7 @@ extern "C" {
 
 // supported modules list
 #define USE_LR2021
-#define IQR_DIO_NUM 8
+#define IQR_DIO_NUM 5
 
 #define LR2021_IRQ_PIN      LORA_DIO1
 #define LR2021_NRESET_PIN   LORA_RESET
@@ -127,7 +122,6 @@ extern "C" {
 #define LR2021_DIO3_TCXO_VOLTAGE 1.6
 // #define LR2021_DIO_AS_RF_SWITCH
 
-
 // GPS  
 #define HAS_GPS 1
 #define GNSS_AIROHA
@@ -137,29 +131,27 @@ extern "C" {
 #define GPS_BAUDRATE 115200
 #define GPS_PROBETRIES 5
 
-#define PIN_GPS_EN (32 + 11) // P1.11
+#define PIN_GPS_EN (32 + 11)        // P1.11
 #define GPS_EN_ACTIVE HIGH
 
-#define PIN_GPS_RESET (0 + 8) // P0.8
+#define PIN_GPS_RESET (0 + 8)       // P0.8
 #define GPS_RESET_MODE HIGH
 
 #define GPS_VRTC_EN (32 + 13)      // P1.13, always high
-#define GPS_SLEEP_INT (0 + 30)  // P1.12, always high
-#define GPS_RTC_INT (0 + 29)     // P0.15, normal is LOW, wake by HIGH
-// #define GPS_RESETB_OUT (32 + 14) // P1.14, always input pull_up
+#define GPS_SLEEP_INT (0 + 30)     // P1.12, always high
+#define GPS_RTC_INT (0 + 29)       // P0.15, normal is LOW, wake by HIGH
 
-#define BATTERY_PIN 2 // P0.02/AIN0, BAT_ADC
+#define BATTERY_PIN 2              // P0.02/AIN0, BAT_ADC
 #define BATTERY_IMMUTABLE
 #define ADC_MULTIPLIER (2.0F)
 // P0.04/AIN2 is VCC_ADC, P0.05/AIN3 is CHARGER_DET, P1.03 is CHARGE_STA, P1.04 is CHARGE_DONE
 
-#define EXT_CHRG_DETECT (32 + 3) // P1.03
+#define EXT_CHRG_DETECT (32 + 3)   // P1.03
 #define EXT_CHRG_DETECT_VALUE LOW
-// #define EXT_IS_CHRGD (32 + 4)  // P1.04
+// #define EXT_IS_CHRGD (32 + 4)   // P1.04
 // #define EXT_IS_CHRGD_VALUE LOW
-#define EXT_PWR_DETECT (0 + 5) // P0.05
+#define EXT_PWR_DETECT (0 + 5)     // P0.05
 
-//？
 #define ADC_RESOLUTION 14
 #define BATTERY_SENSE_RESOLUTION_BITS 12
 
@@ -172,20 +164,11 @@ extern "C" {
 // Buzzer
 #define PIN_BUZZER (0 + 25)    // P0.25, pwm output
 
-// Motor  todo:sleep mode should set this pin to LOW, but currently it's always HIGH because of the hardware design.
-#define MOTOR_EN_PIN (32 + 5) // P1.05, always high
-
-// #define T1000X_SENSOR_EN
-// #define T1000X_VCC_PIN (0 + 4)  // P0.4
-// #define T1000X_NTC_PIN (0 + 31) // P0.31/AIN7
-// #define T1000X_LUX_PIN (0 + 29) // P0.29/AIN5
-
 #define HAS_SCREEN 0
 
 #ifdef __cplusplus
 }
 #endif
-
 /*----------------------------------------------------------------------------
  *        Arduino objects - C++ only
  *----------------------------------------------------------------------------*/

@@ -76,7 +76,6 @@ void INTERRUPT_ATTR RadioLibInterface::isrTxLevel0()
     isrLevel0Common(ISR_TX);
 }
 
-
 /** Our ISR code currently needs this to find our active instance
  */
 RadioLibInterface *RadioLibInterface::instance;

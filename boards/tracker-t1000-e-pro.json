@@ -16,7 +16,7 @@
     ],
     "usb_product": "T1000-E-BOOT",
     "mcu": "nrf52840",
-    "variant": "Seeed_T2000-E",
+    "variant": "Seeed_T1000-E-Pro",
     "bsp": {
       "name": "adafruit"
     },
@@ -37,7 +37,7 @@
     "openocd_target": "nrf52840-mdk-rs"
   },
   "frameworks": ["arduino"],
-  "name": "Seeed T2000-E",
+  "name": "Seeed T1000-E-Pro",
   "upload": {
     "maximum_ram_size": 248832,
     "maximum_size": 815104,
@@ -55,6 +55,6 @@
     "require_upload_port": true,
     "wait_for_upload_port": true
   },
-  "url": "https://www.seeedstudio.com/SenseCAP-Card-Tracker-T1000-E-for-Meshtastic-p-5913.html",
+  "url": "https://www.seeedstudio.com/SenseCAP-Card-Tracker-T1000-E-Pro-for-Meshtastic-p-5913.html",
   "vendor": "Seeed Studio"
 }

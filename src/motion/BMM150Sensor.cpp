@@ -44,17 +44,17 @@ int32_t BMM150Sensor::runOnce()
     if (screen)
         screen->setHeading(heading);
 #endif
-
-    // if(1) { //test
-    //     sBmm150MagData_t magData = sensor->getGeomagneticData();
-    //     Serial.print("mag x = "); Serial.print(magData.x); Serial.println(" uT");
-    //     Serial.print("mag y = "); Serial.print(magData.y); Serial.println(" uT");
-    //     Serial.print("mag z = "); Serial.print(magData.z); Serial.println(" uT");
-    //     float compassDegree = sensor->getCompassDegree();
-    //     Serial.print("the angle between the pointing direction and north (counterclockwise) is:");
-    //     Serial.println(compassDegree);
-    //     Serial.println("--------------------------------");
-    // }
+// if(1) { //test
+//     sBmm150MagData_t magData = sensor->getGeomagneticData();
+//     Serial.print("mag x = "); Serial.print(magData.x); Serial.println(" uT");
+//     Serial.print("mag y = "); Serial.print(magData.y); Serial.println(" uT");
+//     Serial.print("mag z = "); Serial.print(magData.z); Serial.println(" uT");
+//     float compassDegree = sensor->getCompassDegree();
+//     Serial.print("the angle between the pointing direction and north (counterclockwise) is:");
+//     Serial.println(compassDegree);
+//     Serial.println("--------------------------------");
+//     return 1000; // test every second
+// }
     return MOTION_SENSOR_CHECK_INTERVAL_MS;
 }
 

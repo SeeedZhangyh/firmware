@@ -8,12 +8,12 @@
 #include "rfswitch.h"
 #elif ARCH_PORTDUINO
 #include "PortduinoGlue.h"
-#define rfswitch_dio_pins portduino_config.rfswitch_dio_pins
-#define rfswitch_table portduino_config.rfswitch_table
+#define lr2021_rfswitch_dio_pins portduino_config.rfswitch_dio_pins
+#define lr2021_rfswitch_table portduino_config.rfswitch_table
 #else
-static const uint32_t rfswitch_dio_pins[] = {RADIOLIB_NC, RADIOLIB_NC, RADIOLIB_NC, RADIOLIB_NC, RADIOLIB_NC};
+static const uint32_t lr2021_rfswitch_dio_pins[] = {RADIOLIB_NC, RADIOLIB_NC, RADIOLIB_NC, RADIOLIB_NC, RADIOLIB_NC};
 
-static const Module::RfSwitchMode_t rfswitch_table[] = {
+static const Module::RfSwitchMode_t lr2021_rfswitch_table[] = {
     {LR2021::MODE_STBY, {}}, {LR2021::MODE_RX, {}}, {LR2021::MODE_TX, {}}, {LR2021::MODE_RX_HF, {}}, {LR2021::MODE_TX_HF, {}},
     END_OF_MODE_TABLE,
 };
@@ -92,8 +92,7 @@ template <typename T> bool LR20x0Interface<T>::init()
 #endif
 
     delay(10);
-    LOG_INFO("Initializing LR20x0 radio (freq=%f, bw=%f, sf=%d, cr=%d, syncWord=%d, power=%d, preambleLength=%d, tcxoVoltage=%f)", 
-                                                                getFreq(), bw, sf, cr, syncWord, power, preambleLength, tcxoVoltage);
+
     int res = lora.begin(getFreq(), bw, sf, cr, syncWord, power, preambleLength, tcxoVoltage);
 
     if (res == RADIOLIB_ERR_SPI_CMD_FAILED) {
@@ -122,7 +121,7 @@ template <typename T> bool LR20x0Interface<T>::init()
 #endif
 
     if (dioAsRfSwitch) {
-        lora.setRfSwitchTable(rfswitch_dio_pins, rfswitch_table);
+        lora.setRfSwitchTable(lr2021_rfswitch_dio_pins, lr2021_rfswitch_table);
         LOG_DEBUG("Set DIO RF switch");
     }
 
@@ -175,6 +174,11 @@ template <typename T> bool LR20x0Interface<T>::reconfigure()
     err = lora.setOutputPower(power);
     assert(err == RADIOLIB_ERR_NONE);
 
+    //
+    err = lora.setRxBoostedGainMode(config.lora.sx126x_rx_boosted_gain);
+    if (err != RADIOLIB_ERR_NONE)
+        LOG_WARN("LR20x0 setRxBoostedGainMode %s%d", radioLibErr, err);
+    
     startReceive(); // restart receiving
 
     return RADIOLIB_ERR_NONE;
@@ -280,5 +284,4 @@ template <typename T> bool LR20x0Interface<T>::sleep()
     return true;
 }
 
-template class LR20x0Interface<LR2021>;
 #endif
